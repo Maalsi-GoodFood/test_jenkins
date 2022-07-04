@@ -5,4 +5,4 @@ const strMonth = '' + (date.getMonth() + 1);
 const strDays = '' + date.getDate();
 const saucisson = 'lol';
 
-console.log("DATE = " + strDays + '/' + strMonth + '/' + strYear);
+console.log("DATE NEW = " + strDays + '/' + strMonth + '/' + strYear);
