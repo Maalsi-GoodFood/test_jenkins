@@ -1,12 +1,13 @@
 pipeline {
 
     environment {
-        IMAGENAME = 'nomImageDocker'
-        REGISTRY = "METTRE LA REGISTRY ICI AVEC LE CREDENTIALS pour le repo de registry"
+        TARGETIMAGENAME = 'nomImageDocker'
+        REGISTRY = 'METTRE LA REGISTRY ICI AVEC LE CREDENTIALS pour le repo de registry'
+        BUILDENVIMAGE = 'node:latest'
     }
 
     agent {
-        docker { image 'node:latest' }
+        docker { image BUILDENVIMAGE }
     }
     stages {
         stage('BUILD') {
