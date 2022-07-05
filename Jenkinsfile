@@ -15,9 +15,8 @@ pipeline {
             }
             steps {
                 //Mettre ici l'ordre de build genre npm build.
-            }
-            steps {
-                //TODO METTRE ICI Le lancement des tests (npm test par exemple)
+                //Mettre ici l'ordre de run
+                //Mettre ici l'ordre de test
             }
         }
         stage('DOCKER-BUILD') {
