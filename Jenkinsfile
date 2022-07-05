@@ -6,10 +6,10 @@ pipeline {
         REGISTRY_LINK = 'lien du git de destination'
     }
 
-    agent any
+    agent none
 
     stages {
-        stage('BUILD') {
+        stage('TESTS') {
             agent {
                 docker { image "image docker pour fournir les éléments" }
             }
@@ -21,16 +21,18 @@ pipeline {
             }
         }
         stage('DOCKER-BUILD') {
+            agent any
             steps {
                 script {
-                    dockerImage = docker.build("${TARGET_IMAGE_NAME}")
+                    dockerImage = docker.build(TARGET_IMAGE_NAME)
                 }
             }
         }
         stage('DOCKER-PUSH') {
+            agent any
             steps {
                 script {
-                    docker.withCredentials(''+env.REGISTRY_LINK, ''+env.REGISTRY);
+                    docker.withCredentials(''+REGISTRY_LINK, ''+REGISTRY);
                     dockerImage.push(''+${BUILD_NUMBER})
                     dockerImage.push('latest');
                 }
