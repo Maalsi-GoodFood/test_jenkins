@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        docker { image 'nodejs:lastest' }
+        docker { image 'nodejscn/node:lastest' }
     }
     stages {
         stage('Build') {
