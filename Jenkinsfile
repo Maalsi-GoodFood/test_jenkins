@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        docker { image 'nodejscn/node:lastest' }
+        docker { image 'centos/nodejs-6-centos7:lastest' }
     }
     stages {
         stage('Build') {
