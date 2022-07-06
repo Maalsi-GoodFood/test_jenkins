@@ -1,40 +1,45 @@
 pipeline {
 
     environment {
-        TARGET_IMAGE_NAME = 'nomImageDocker'
-        REGISTRY = "L'id d'identification du credentials concerné"
-        REGISTRY_LINK = 'lien du git de destination'
+        REGISTRY_CREDENTIALS = 'dockerhub'
+        REGISTRY_LINK = 'https://hub.docker.com'
+        USERNAME = 'cesigoodfood';
+        REGISTRY_NAME = 'mettre le nom du repo (registry si un seul repo)'
     }
 
-    agent none
+    agent any
 
     stages {
         stage('TESTS') {
             agent {
-                docker { image "image docker pour fournir les éléments" }
+                docker { image "mettre la bonne image docker et la bonne version pour faire la build et les tests" }
             }
             steps {
                 //Mettre ici l'ordre de build genre npm build.
-                //Mettre ici l'ordre de run
-                //Mettre ici l'ordre de test
+                //TODO METTRE ICI Le lancement des tests (npm test par exemple)
+                echo "build & tests"
             }
         }
         stage('DOCKER-BUILD') {
-            agent any
             steps {
                 script {
-                    dockerImage = docker.build(TARGET_IMAGE_NAME)
+                    dockerImage = docker.build('' + USERNAME + '/' + REGISTRY_NAME)
                 }
             }
         }
         stage('DOCKER-PUSH') {
-            agent any
             steps {
                 script {
-                    docker.withCredentials(''+REGISTRY_LINK, ''+REGISTRY);
-                    dockerImage.push(''+${BUILD_NUMBER})
-                    dockerImage.push('latest');
+                    docker.withRegistry('', ''+REGISTRY_CREDENTIALS) {
+                        dockerImage.push(''+BUILD_NUMBER)
+                        dockerImage.push('latest')
+                    }
                 }
+            }
+        }    
+        stage('Remove Unused docker image') {
+            steps{
+                sh "docker rmi $USERNAME/$REGISTRY_NAME:$BUILD_NUMBER"
             }
         }
     }
